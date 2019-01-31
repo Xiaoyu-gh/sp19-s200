@@ -35,9 +35,9 @@ public class NBody {
 	}
 
 
-	public static String universe = "images/starfield.jpg";
 
 	public static void main(String[] args) {
+		String universe = "images/starfield.jpg";
 		double T = Double.parseDouble(args[0]);
 		double dt = Double.parseDouble(args[1]);
 		String filename = args[2];
@@ -57,7 +57,7 @@ public class NBody {
 		/* Draw the bodies
 		*/
 		for (int i = 1; i < bodies.length; i += 1) {
-			Body.draw(bodies[i]);
+			bodies[i].draw(bodies[i]);
 		}
 		
 		StdDraw.show();
@@ -84,8 +84,8 @@ public class NBody {
 			/* Update the parameters for each body and draw their current location
 			*/
 			for (int i = 1; i < bodies.length; i += 1) {
-				bodies[i] = bodies[i].update(dt, xForces[i], yForces[i]);
-				Body.draw(bodies[i]);
+				bodies[i].update(dt, xForces[i], yForces[i]);
+				bodies[i].draw(bodies[i]);
 			}
 			StdDraw.show();
 			StdDraw.pause(10);

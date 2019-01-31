@@ -67,17 +67,16 @@ public class Body {
 		return fnety;
 	}
 
-	public Body update(double dt, double fX, double fY) {
+	public void update(double dt, double fX, double fY) {
 		double accX = fX / this.mass;
 		double accY = fY / this.mass;
 		this.xxVel += accX * dt;
 		this.yyVel += accY * dt;
 		this.xxPos += dt * this.xxVel;
 		this.yyPos += dt * this.yyVel;
-		return this;
 	}
 
-	public static void draw(Body b) {
+	public void draw(Body b) {
 		String imgFileLoc = "images/" + b.imgFileName;
 		StdDraw.picture(b.xxPos,b.yyPos,imgFileLoc);
 	}
