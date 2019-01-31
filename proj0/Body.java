@@ -76,6 +76,12 @@ public class Body {
 		this.yyPos += dt * this.yyVel;
 		return this;
 	}
+
+	public static void draw(Body b) {
+		String imgFileLoc = "images/" + b.imgFileName;
+		StdDraw.picture(b.xxPos,b.yyPos,imgFileLoc);
+	}
+
 } 
 
 
