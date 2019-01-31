@@ -42,7 +42,7 @@ public class NBody {
 		double dt = Double.parseDouble(args[1]);
 		String filename = args[2];
 		double universeRadius = readRadius(filename);
-		Body[] planets = readBodies(filename);
+		Body[] bodies = readBodies(filename);
 
 		StdDraw.enableDoubleBuffering();
 
@@ -56,8 +56,8 @@ public class NBody {
 		
 		/* Draw the bodies
 		*/
-		for (int i = 1; i < planets.length; i += 1) {
-			Body.draw(planets[i]);
+		for (int i = 1; i < bodies.length; i += 1) {
+			Body.draw(bodies[i]);
 		}
 		
 		StdDraw.show();
@@ -65,16 +65,16 @@ public class NBody {
 		/* initialize xForces, yForces and time
 		*/
 
-		double[] xForces = new double[planets.length];
-		double[] yForces = new double[planets.length];
+		double[] xForces = new double[bodies.length];
+		double[] yForces = new double[bodies.length];
 
 		for (double tt = 0; tt < T; tt += dt) {
 
 			/* Calculate xForces and yForces for each body
 			*/
-			for (int i = 1; i < planets.length; i += 1) {
-				xForces[i] = planets[i].calcNetForceExertedByX(planets);
-				yForces[i] = planets[i].calcNetForceExertedByY(planets);
+			for (int i = 1; i < bodies.length; i += 1) {
+				xForces[i] = bodies[i].calcNetForceExertedByX(bodies);
+				yForces[i] = bodies[i].calcNetForceExertedByY(bodies);
 			}
 
 			/* Draw the background/Universe
@@ -83,16 +83,16 @@ public class NBody {
 
 			/* Update the parameters for each body and draw their current location
 			*/
-			for (int i = 1; i < planets.length; i += 1) {
-				planets[i] = planets[i].update(dt, xForces[i], yForces[i]);
-				Body.draw(planets[i]);
+			for (int i = 1; i < bodies.length; i += 1) {
+				bodies[i] = bodies[i].update(dt, xForces[i], yForces[i]);
+				Body.draw(bodies[i]);
 			}
 			StdDraw.show();
 			StdDraw.pause(10);
 		}
 
 		StdOut.printf("%d\n", bodies.length);
-		StdOut.printf("%.2e\n", radius);
+		StdOut.printf("%.2e\n", universeRadius);
 		for (int i = 0; i < bodies.length; i++) {
     		StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
                   bodies[i].xxPos, bodies[i].yyPos, bodies[i].xxVel,
