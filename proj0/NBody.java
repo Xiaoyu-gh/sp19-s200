@@ -57,7 +57,7 @@ public class NBody {
 		/* Draw the bodies
 		*/
 		for (int i = 1; i < bodies.length; i += 1) {
-			bodies[i].draw(bodies[i]);
+			bodies[i].draw();
 		}
 		
 		StdDraw.show();
@@ -85,7 +85,7 @@ public class NBody {
 			*/
 			for (int i = 1; i < bodies.length; i += 1) {
 				bodies[i].update(dt, xForces[i], yForces[i]);
-				bodies[i].draw(bodies[i]);
+				bodies[i].draw();
 			}
 			StdDraw.show();
 			StdDraw.pause(10);
