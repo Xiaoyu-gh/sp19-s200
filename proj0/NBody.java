@@ -56,7 +56,7 @@ public class NBody {
 		
 		/* Draw the bodies
 		*/
-		for (int i = 1; i < bodies.length; i += 1) {
+		for (int i = 0; i < bodies.length; i += 1) {
 			bodies[i].draw();
 		}
 		
@@ -72,7 +72,7 @@ public class NBody {
 
 			/* Calculate xForces and yForces for each body
 			*/
-			for (int i = 1; i < bodies.length; i += 1) {
+			for (int i = 0; i < bodies.length; i += 1) {
 				xForces[i] = bodies[i].calcNetForceExertedByX(bodies);
 				yForces[i] = bodies[i].calcNetForceExertedByY(bodies);
 			}
@@ -83,7 +83,7 @@ public class NBody {
 
 			/* Update the parameters for each body and draw their current location
 			*/
-			for (int i = 1; i < bodies.length; i += 1) {
+			for (int i = 0; i < bodies.length; i += 1) {
 				bodies[i].update(dt, xForces[i], yForces[i]);
 				bodies[i].draw();
 			}
