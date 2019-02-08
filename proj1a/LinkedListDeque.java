@@ -23,17 +23,9 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-    public LinkedListDeque(T item) {
-        sentinel = new Node(null, null, null);
-        Node newNode = new Node(sentinel, item, sentinel);
-        sentinel.next = newNode;
-        sentinel.prev = newNode;
-        size = 1;
-    }
-
     //@source: https://www.youtube.com/watch?v=JNroRiEG7U4
     //
-    public LinkedListDeque(LinkedListDeque<T> other) {
+    public LinkedListDeque(LinkedListDeque other) {
         sentinel = new Node(null, null, null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
@@ -46,6 +38,11 @@ public class LinkedListDeque<T> {
 
     public void addFirst(T item) {
         size++;
+        if (size == 1) {
+            Node newNode = new Node(sentinel, item, sentinel);
+            sentinel.next = newNode;
+            sentinel.prev = newNode;
+        }
         Node firstNode = sentinel.next;
         Node temp = new Node(sentinel, item, firstNode);
         firstNode.prev = temp;
@@ -55,6 +52,11 @@ public class LinkedListDeque<T> {
 
     public void addLast(T item) {
         size++;
+        if (size == 1) {
+            Node newNode = new Node(sentinel, item, sentinel);
+            sentinel.next = newNode;
+            sentinel.prev = newNode;
+        }
         Node lastNode = sentinel.prev;
         Node temp = new Node(lastNode, item, sentinel);
         sentinel.prev = temp;
