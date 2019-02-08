@@ -57,7 +57,8 @@ public class LinkedListDequeTest {
 		System.out.println("Printing out deque: ");
 		lld1.printDeque();
 
-//		System.out.println(lld1.get(4));
+
+		String now = lld1.get(2);
 
 
 		printTestStatus(passed);
@@ -79,9 +80,17 @@ public class LinkedListDequeTest {
 		// should not be empty 
 		passed = checkEmpty(false, lld1.isEmpty()) && passed;
 
-		lld1.removeFirst();
+		lld1.addFirst(20);
+		// should not be empty
+		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+
+
+		lld1.removeLast();
 		// should be empty 
-		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+
+		System.out.println("Printing out deque: ");
+		lld1.printDeque();
 
 		printTestStatus(passed);
 

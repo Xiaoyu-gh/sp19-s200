@@ -1,10 +1,11 @@
 public class LinkedListDeque<T> {
-    private class Node {
-        public T x;
-        public Node next;
-        public Node prev;
 
-        public Node(Node p, T i, Node n) {
+    private class Node {
+        private T x;
+        private Node next;
+        private Node prev;
+
+        private Node(Node p, T i, Node n) {
             prev = p;
             x = i;
             next = n;
@@ -38,13 +39,13 @@ public class LinkedListDeque<T> {
         sentinel.next = sentinel;
         size = 0;
 
-        for (int i = 0; i < other.size(); i ++) {
+        for (int i = 0; i < other.size(); i++) {
             addLast((T) other.get(i));
         }
     }
 
     public void addFirst(T item) {
-        size ++ ;
+        size++;
         Node firstNode = sentinel.next;
         Node temp = new Node(sentinel, item, firstNode);
         firstNode.prev = temp;
@@ -53,7 +54,7 @@ public class LinkedListDeque<T> {
 
 
     public void addLast(T item) {
-        size ++ ;
+        size++;
         Node lastNode = sentinel.prev;
         Node temp = new Node(lastNode, item, sentinel);
         sentinel.prev = temp;
@@ -66,7 +67,7 @@ public class LinkedListDeque<T> {
             return true;
         }
         return false;
-   }
+    }
 
     public int size() {
         return size;
@@ -85,7 +86,7 @@ public class LinkedListDeque<T> {
         if (removedNode.x == null) {
             return null;
         }
-        size -- ;
+        size--;
         T removed = removedNode.x;
         Node newFirst = removedNode.next;
         sentinel.next = newFirst;
@@ -99,7 +100,7 @@ public class LinkedListDeque<T> {
         if (removedNode.x == null) {
             return null;
         }
-        size -- ;
+        size--;
         T removed = removedNode.x;
         Node newLast = removedNode.prev;
         sentinel.prev = newLast;
@@ -115,10 +116,10 @@ public class LinkedListDeque<T> {
         if (index >= size) {
             return null;
         }
-        Node curr = sentinel.next.next;
+        Node curr = sentinel.next;
         int i = 0;
         while (i < index && curr.next != null) {
-            i ++ ;
+            i++;
             curr = curr.next;
         }
 
@@ -130,11 +131,11 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return sentinel.next.x;
         }
-        Node curr = sentinel.next.next;
+        Node curr = sentinel.next;
         if (curr.next == null || index == 0) {
             return curr.x;
         } else {
-            index -- ;
+            index--;
             return getRecursive(index);
         }
     }
