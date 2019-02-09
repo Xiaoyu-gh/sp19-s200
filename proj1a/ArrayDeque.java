@@ -81,7 +81,7 @@ public class ArrayDeque<T> {
 
         items = a;
         nextF = items.length;
-        nextL = size;
+        nextL = size - 1;
 
     }
 
@@ -107,7 +107,7 @@ public class ArrayDeque<T> {
         if (index >= size) {
             return null;
         }
-        int realIndex = plusOne(nextF)+index;
+        int realIndex = plusOne(nextF) + index;
         if (realIndex >= size) {
             realIndex -= 8;
         }
