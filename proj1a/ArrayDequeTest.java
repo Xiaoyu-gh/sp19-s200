@@ -89,18 +89,11 @@ public class ArrayDequeTest {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 
-        lld1.addLast(0);
-        lld1.size();
-        lld1.addLast(2);
-        lld1.addFirst(3);
-        lld1.size();
-        lld1.addLast(5);
-        lld1.addFirst(6);
-        lld1.addFirst(7);
-        lld1.addFirst(8);
-        lld1.addFirst(9);
-        lld1.size();
-        lld1.addFirst(11);
+        for (int i = 0; i < 20; i++)
+            lld1.addLast(i);
+
+        for (int i = 0; i < 18; i++)
+            lld1.removeFirst();
 
 
         ArrayDeque<Integer> lld2 = new ArrayDeque(lld1);

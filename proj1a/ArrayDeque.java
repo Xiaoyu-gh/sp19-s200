@@ -59,8 +59,9 @@ public class ArrayDeque<T> {
     public boolean isEmpty() {
         if (size == 0) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public int size() {
@@ -80,26 +81,43 @@ public class ArrayDeque<T> {
         }
 
         items = a;
-        nextF = items.length;
-        nextL = size - 1;
+        nextF = items.length - 1;
+        nextL = size;
 
     }
 
     public T removeFirst() {
-        if (items == null) {
+        if (size == 0) {
             return null;
         }
-        T removed = items[plusOne(nextF)];
+
+        if ((items.length >= 16) && (size * 4 <= items.length)) {
+            int newLength = Math.round(size * 2);
+            resize(newLength);
+        }
+        int removedInd = plusOne(nextF);
+        T removed = items[removedInd];
         size--;
+        items[removedInd] = null;
+        nextF = removedInd;
         return removed;
+
     }
 
     public T removeLast() {
-        if (items == null) {
+        if (size == 0) {
             return null;
         }
-        T removed = items[minusOne(nextF)];
+
+        if (size/items.length > 4) {
+            int newLength = Math.round(items.length/4);
+            resize(newLength);
+        }
+        int removedInd = minusOne(nextF);
+        T removed = items[removedInd];
         size--;
+        items[removedInd] = null;
+        nextL = removedInd;
         return removed;
     }
 
@@ -108,8 +126,8 @@ public class ArrayDeque<T> {
             return null;
         }
         int realIndex = plusOne(nextF) + index;
-        if (realIndex >= size) {
-            realIndex -= 8;
+        if (realIndex >= items.length) {
+            realIndex -= items.length;
         }
         return items[realIndex];
     }
