@@ -28,18 +28,32 @@ public class ArrayDeque<T> {
         if (size == items.length) {
             resize(size * 2);
         }
-        items[nextF] = item;
-        size++;
-        nextF = minusOne(nextF);
+        if (size == 0) {
+            items[0] = item;
+            size++;
+            nextF = 7;
+            nextL = 1;
+        } else {
+            items[nextF] = item;
+            size++;
+            nextF = minusOne(nextF);
+        }
     }
 
     public void addLast(T item) {
         if (size == items.length) {
             resize(size * 2);
         }
-        items[nextL] = item;
-        nextL++;
-        size++;
+        if (size == 0) {
+            items[0] = item;
+            size++;
+            nextF = 7;
+            nextL = 1;
+        } else {
+            items[nextL] = item;
+            nextL++;
+            size++;
+        }
     }
 
     public boolean isEmpty() {
@@ -104,13 +118,13 @@ public class ArrayDeque<T> {
 
     private int minusOne(int index) {
         if (index == 0) {
-            return items.length;
+            return items.length-1;
         }
         return index - 1;
     }
 
     private int plusOne(int index) {
-        if (index == items.length) {
+        if (index == items.length-1) {
             return 0;
         }
         return index + 1;

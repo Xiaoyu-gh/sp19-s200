@@ -85,7 +85,7 @@ public class ArrayDequeTest {
 
     public static void deepCopyTest() {
 
-        System.out.println("Running add/remove test.");
+        System.out.println("Running deep copy test.");
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 
