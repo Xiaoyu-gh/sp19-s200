@@ -89,10 +89,15 @@ public class ArrayDequeTest {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 
+        lld1.addFirst(40);
+        lld1.addLast(50);
+        lld1.addLast(60);
+        lld1.addFirst(30);
         lld1.addFirst(20);
-        lld1.addLast(30);
-        lld1.addLast(40);
+        lld1.addLast(70);
         lld1.addFirst(10);
+        lld1.addLast(80);
+        lld1.addLast(90);
 
 
         ArrayDeque<Integer> lld2 = new ArrayDeque(lld1);

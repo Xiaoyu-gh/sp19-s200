@@ -13,7 +13,7 @@ public class ArrayDeque<T> {
     }
 
     public ArrayDeque(ArrayDeque other) {
-        items = (T[]) new Object[8];
+        items = (T[]) new Object[other.items.length];
         size = 0;
 
         for (int i = 0; i < other.items.length; i++) {
@@ -107,24 +107,22 @@ public class ArrayDeque<T> {
         if (index >= size) {
             return null;
         }
-        int realIndex = 0;
-        if (nextF < index) {
-            realIndex = nextF + index + 1;
-        } else {
-            realIndex = nextF + index + 1 - items.length;
+        int realIndex = plusOne(nextF)+index;
+        if (realIndex >= size) {
+            realIndex -= 8;
         }
         return items[realIndex];
     }
 
     private int minusOne(int index) {
         if (index == 0) {
-            return items.length-1;
+            return items.length - 1;
         }
         return index - 1;
     }
 
     private int plusOne(int index) {
-        if (index == items.length-1) {
+        if (index == items.length - 1) {
             return 0;
         }
         return index + 1;
