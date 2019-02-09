@@ -109,11 +109,12 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        if (size/items.length > 4) {
-            int newLength = Math.round(items.length/4);
+        if ((items.length >= 16) && (size * 4 <= items.length)) {
+            int newLength = Math.round(size * 2);
             resize(newLength);
         }
-        int removedInd = minusOne(nextF);
+
+        int removedInd = minusOne(nextL);
         T removed = items[removedInd];
         size--;
         items[removedInd] = null;
