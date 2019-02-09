@@ -9,7 +9,7 @@ public class ArrayDeque<T> {
         items = (T[]) new Object[8];
         size = 0;
         nextF = 0;
-        nextL = 1;
+        nextL = 0;
     }
 
     public ArrayDeque(ArrayDeque other) {
@@ -63,8 +63,11 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[capacity];
         for (int i = 0; i < size; i++) {
             a[i] = get(i);
-            items = a;
         }
+
+        items = a;
+        nextF = items.length;
+        nextL = size;
 
     }
 
@@ -99,17 +102,17 @@ public class ArrayDeque<T> {
         return items[realIndex];
     }
 
-    private int minusOne(int Index) {
-        if (Index == 0) {
+    private int minusOne(int index) {
+        if (index == 0) {
             return items.length;
         }
-        return Index - 1;
+        return index - 1;
     }
 
-    private int plusOne(int Index) {
-        if (Index == items.length) {
+    private int plusOne(int index) {
+        if (index == items.length) {
             return 0;
         }
-        return Index + 1;
+        return index + 1;
     }
 }

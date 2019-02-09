@@ -70,20 +70,20 @@ public class ArrayDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 
-//        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-//        // should be empty
-//        boolean passed = checkEmpty(true, lld1.isEmpty());
-//
-//        lld1.addFirst(10);
-//        // should not be empty
-//        passed = checkEmpty(false, lld1.isEmpty()) && passed;
-//
-//        lld1.removeFirst();
-//        // should be empty
-//        passed = checkEmpty(true, lld1.isEmpty()) && passed;
-//
-//        printTestStatus(passed);
-//
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        // should be empty
+        boolean passed = checkEmpty(true, lld1.isEmpty());
+
+        lld1.addFirst(10);
+        // should not be empty
+        passed = checkEmpty(false, lld1.isEmpty()) && passed;
+
+        lld1.removeFirst();
+        // should be empty
+        passed = checkEmpty(true, lld1.isEmpty()) && passed;
+
+        printTestStatus(passed);
+
     }
 
     public static void main(String[] args) {
