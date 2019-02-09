@@ -51,17 +51,16 @@ public class ArrayDeque<T> {
             nextL = 1;
         } else {
             items[nextL] = item;
-            nextL++;
             size++;
+            nextL = plusOne(nextL);
         }
     }
 
     public boolean isEmpty() {
         if (size == 0) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public int size() {
