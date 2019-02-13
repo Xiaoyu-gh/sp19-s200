@@ -134,11 +134,14 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
+        if (sentinel.next.x == null) {
+            return null;
+        }
         if (index == 0) {
             return sentinel.next.x;
         }
         Node curr = sentinel.next;
-        if (curr.next == null || index == 0) {
+        if (curr.next.x == null || index == 0) {
             return curr.x;
         } else {
             index--;
