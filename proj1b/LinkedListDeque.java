@@ -135,7 +135,7 @@ public class LinkedListDeque<Item> implements Deque<Item> {
     }
 
     public Item getRecursive(int index) {
-        return getRecursiveHelper(index,sentinel);
+        return getRecursiveHelper(index, sentinel);
     }
 
     private Item getRecursiveHelper(int index, Node node) {
@@ -145,6 +145,6 @@ public class LinkedListDeque<Item> implements Deque<Item> {
         if (index == 0) {
             return node.next.x;
         }
-        return getRecursiveHelper(index - 1,node.next);
+        return getRecursiveHelper(index - 1, node.next);
     }
 }

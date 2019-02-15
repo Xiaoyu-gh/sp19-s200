@@ -128,7 +128,6 @@ public class LinkedListDeque<T> {
             i++;
             curr = curr.next;
         }
-
         return curr.x;
 
     }

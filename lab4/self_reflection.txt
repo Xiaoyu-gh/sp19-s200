@@ -4,27 +4,27 @@ ArrayDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: The staff solution used only one wrapIndex helper method to take care of the indexing while I had two private helper methods.
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I am proud of the fact that my code is most concise possibly (in my best capability). I managed to avoid repeating code and try to generalize all cases in my methods. 
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: I do think that updating all constructing elements(i.e. nextF, nextL, size, etc) in every method is a little inelegant because it takes a lot of lines to update the measures. I hope there are better ways to make it look more elegant.
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: I learned a lot by sharing our debugging process when writing ArrayDeque. I change-and-prayed a lot when I wrote my code and it really wrecked me when submitted the code and get more errors. In my next project I will definitely write more test cases to check my code before handing it to AG.
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A: I wish I have a more comprehensive understanding about circular structure before writing ArrayDeque.
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A: 
 
 -----
 
@@ -32,27 +32,27 @@ LinkedListDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: My get method could have been more concise.
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I felt proud about my concise getRecursive helper method.
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: In my code, I had special cases for my addFirst and addLast which can be more generalized. 
 
 Q: What did you learn by talking to your partner about writing LinkedListDeque?
 
-A:
+A: Same as above, I learned from my partner that I can definitely generalize my addFirst and addLast more.
 
 Q: What do you wish you would have known before writing LinkedListDeque, if anything?
 
-A:
+A: I wish I could have known more about writing test cases so it would be easier for me to debug.
 
 Q: If you wrote LinkedListDeque again, what would you do differently, if anything?
 
-A:
+A: I would definitely generalized my addFirst and addLast to avoid special cases.
 
 -----
 
@@ -60,4 +60,4 @@ Meta:
 
 Q: Did you like this design review process? Anything we should do differently next time?
 
-A: 
+A: I really liked that a staff solution was presented and discussed in detail. It provided a lot of insights. 
