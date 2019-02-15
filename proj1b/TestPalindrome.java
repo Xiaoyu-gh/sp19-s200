@@ -23,6 +23,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("cc"));
         assertTrue(palindrome.isPalindrome("a"));
         assertTrue(palindrome.isPalindrome("refer"));
+        assertTrue(palindrome.isPalindrome(""));
 
         CharacterComparator cc = new OffByOne();
         assertFalse(palindrome.isPalindrome("noon", cc));

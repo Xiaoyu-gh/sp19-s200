@@ -105,9 +105,10 @@ public class LinkedListDequeTest {
 		lld1.addLast(0);
 		int x2 = lld1.getRecursive(0);
 		lld1.addLast(1);
-		int x3 = lld1.getRecursive(3);
+		int x3 = lld1.getRecursive(1);
 		lld1.addLast(2);
 		lld1.addLast(3);
+		int x4 = lld1.getRecursive(2);
 		lld1.addLast(4);
 		lld1.addLast(6);
 		lld1.addLast(7);

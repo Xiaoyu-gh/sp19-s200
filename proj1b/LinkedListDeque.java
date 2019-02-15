@@ -135,18 +135,16 @@ public class LinkedListDeque<Item> implements Deque<Item> {
     }
 
     public Item getRecursive(int index) {
-        if (sentinel.next.x == null) {
+        return getRecursiveHelper(index,sentinel);
+    }
+
+    private Item getRecursiveHelper(int index, Node node) {
+        if (node.next.x == null) {
             return null;
         }
         if (index == 0) {
-            return sentinel.next.x;
+            return node.next.x;
         }
-        Node curr = sentinel.next;
-        if (curr.next.x == null || index == 0) {
-            return curr.x;
-        } else {
-            index--;
-            return getRecursive(index);
-        }
+        return getRecursiveHelper(index - 1,node.next);
     }
 }
