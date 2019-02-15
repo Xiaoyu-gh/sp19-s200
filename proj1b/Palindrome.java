@@ -11,6 +11,11 @@ public class Palindrome {
 
     public boolean isPalindrome(String word) {
         Deque<Character> charList = wordToDeque(word);
+
+        if (word.length() == 0) {
+            return true;
+        }
+
         boolean pal = true;
         int i = 0;
         int j = word.length() - 1;
@@ -42,5 +47,6 @@ public class Palindrome {
             j--;
         }
         return pal;
+
     }
 }

@@ -18,8 +18,8 @@ public class TestPalindrome {
 
     @Test
     public void testisPalindrome() {
-        assertFalse(palindrome.isPalindrome("valentine"));
-        assertTrue(palindrome.isPalindrome("noon"));
+        assertFalse(palindrome.isPalindrome("noon"));
+        assertFalse(palindrome.isPalindrome("nooN"));
         assertTrue(palindrome.isPalindrome("cc"));
         assertTrue(palindrome.isPalindrome("a"));
         assertTrue(palindrome.isPalindrome("refer"));
@@ -30,6 +30,8 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("a", cc));
         assertTrue(palindrome.isPalindrome("%&", cc));
         assertTrue(palindrome.isPalindrome("flake", cc));
+        assertFalse(palindrome.isPalindrome("fLake", cc));
+        assertTrue(palindrome.isPalindrome(""));
 
 
         CharacterComparator dd = new OffByN(4);
@@ -37,6 +39,8 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("a", dd));
         assertTrue(palindrome.isPalindrome("ae", dd));
         assertTrue(palindrome.isPalindrome("flapj", dd));
+        assertFalse(palindrome.isPalindrome("Flapi", dd));
+        assertTrue(palindrome.isPalindrome(""));
 
     }
 }
