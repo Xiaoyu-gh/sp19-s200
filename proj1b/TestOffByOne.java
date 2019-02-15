@@ -9,9 +9,9 @@ public class TestOffByOne {
     // Your tests go here.
     @Test
     public void testequalChars() {
-        assertTrue(offByOne.equalChars('x','y'));
-        assertFalse(offByOne.equalChars('a','a'));
-        assertFalse(offByOne.equalChars('a','B'));
-        assertTrue(offByOne.equalChars('%','&'));
+        assertTrue(offByOne.equalChars('x', 'y'));
+        assertFalse(offByOne.equalChars('a', 'a'));
+        assertFalse(offByOne.equalChars('a', 'B'));
+        assertTrue(offByOne.equalChars('%', '&'));
     }
 }

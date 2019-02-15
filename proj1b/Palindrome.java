@@ -14,7 +14,7 @@ public class Palindrome {
         boolean pal = true;
         int i = 0;
         int j = word.length() - 1;
-        while (pal && (i<(word.length())/2)){
+        while (pal && (i < (word.length()) / 2)) {
             if (charList.get(i) != charList.get(j)) {
                 pal = false;
             }
@@ -29,8 +29,8 @@ public class Palindrome {
         boolean pal = true;
         int i = 0;
         int j = word.length() - 1;
-        while (pal && (i<(word.length())/2)){
-            if (!cc.equalChars(charList.get(i),charList.get(j))) {
+        while (pal && (i < (word.length()) / 2)) {
+            if (!cc.equalChars(charList.get(i), charList.get(j))) {
                 pal = false;
             }
             i++;

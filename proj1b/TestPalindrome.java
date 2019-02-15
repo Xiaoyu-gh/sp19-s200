@@ -25,21 +25,17 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("refer"));
 
         CharacterComparator cc = new OffByOne();
-        assertFalse(palindrome.isPalindrome("noon",cc));
-        assertTrue(palindrome.isPalindrome("a",cc));
-        assertTrue(palindrome.isPalindrome("%&",cc));
-        assertTrue(palindrome.isPalindrome("flake",cc));
+        assertFalse(palindrome.isPalindrome("noon", cc));
+        assertTrue(palindrome.isPalindrome("a", cc));
+        assertTrue(palindrome.isPalindrome("%&", cc));
+        assertTrue(palindrome.isPalindrome("flake", cc));
 
 
         CharacterComparator dd = new OffByN(4);
-        assertFalse(palindrome.isPalindrome("noon",dd));
-        assertTrue(palindrome.isPalindrome("a",dd));
-        assertTrue(palindrome.isPalindrome("ae",dd));
-        assertTrue(palindrome.isPalindrome("flapj",dd));
+        assertFalse(palindrome.isPalindrome("noon", dd));
+        assertTrue(palindrome.isPalindrome("a", dd));
+        assertTrue(palindrome.isPalindrome("ae", dd));
+        assertTrue(palindrome.isPalindrome("flapj", dd));
 
     }
-
-
 }
-
-//Uncomment this class once you've created your Palindrome class.
