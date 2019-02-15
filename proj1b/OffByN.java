@@ -10,7 +10,7 @@ public class OffByN implements CharacterComparator{
     public boolean equalChars(char x, char y) {
         int a = x;
         int b = y;
-        if ((b - a) == offByNumber) {
+        if (Math.abs((b - a)) == offByNumber) {
             return true;
         }
         return false;

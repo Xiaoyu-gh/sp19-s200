@@ -25,7 +25,17 @@ public class Palindrome {
     }
 
     public boolean isPalindrome(String word, CharacterComparator cc) {
-
-        return false;
+        Deque<Character> charList = wordToDeque(word);
+        boolean pal = true;
+        int i = 0;
+        int j = word.length() - 1;
+        while (pal && (i<(word.length())/2)){
+            if (!cc.equalChars(charList.get(i),charList.get(j))) {
+                pal = false;
+            }
+            i++;
+            j--;
+        }
+        return pal;
     }
 }
