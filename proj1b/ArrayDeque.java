@@ -1,30 +1,31 @@
-public class ArrayDeque<T> {
+public class ArrayDeque<Item> implements Deque<Item> {
 
-    private T[] items;
+    private Item[] items;
     private int size;
     private int nextF;
     private int nextL;
 
     public ArrayDeque() {
-        items = (T[]) new Object[8];
+        items = (Item[]) new Object[8];
         size = 0;
         nextF = 0;
         nextL = 0;
     }
 
     public ArrayDeque(ArrayDeque other) {
-        items = (T[]) new Object[other.items.length];
+        items = (Item[]) new Object[other.items.length];
         size = 0;
 
         for (int i = 0; i < other.items.length; i++) {
-            items[i] = (T) other.items[i];
+            items[i] = (Item) other.items[i];
         }
         nextF = other.nextF;
         nextL = other.nextL;
         size = other.size;
     }
 
-    public void addFirst(T item) {
+    @Override
+    public void addFirst(Item item) {
         if (size == items.length) {
             resize(size * 2);
         }
@@ -40,7 +41,8 @@ public class ArrayDeque<T> {
         }
     }
 
-    public void addLast(T item) {
+    @Override
+    public void addLast(Item item) {
         if (size == items.length) {
             resize(size * 2);
         }
@@ -56,13 +58,7 @@ public class ArrayDeque<T> {
         }
     }
 
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
-    }
-
+    @Override
     public int size() {
         return size;
     }
@@ -74,7 +70,7 @@ public class ArrayDeque<T> {
     }
 
     private void resize(int capacity) {
-        T[] a = (T[]) new Object[capacity];
+        Item[] a = (Item[]) new Object[capacity];
         for (int i = 0; i < size; i++) {
             a[i] = get(i);
         }
@@ -85,7 +81,8 @@ public class ArrayDeque<T> {
 
     }
 
-    public T removeFirst() {
+    @Override
+    public Item removeFirst() {
         if (size == 0) {
             return null;
         }
@@ -95,7 +92,7 @@ public class ArrayDeque<T> {
             resize(newLength);
         }
         int removedInd = plusOne(nextF);
-        T removed = items[removedInd];
+        Item removed = items[removedInd];
         size--;
         items[removedInd] = null;
         nextF = removedInd;
@@ -103,7 +100,8 @@ public class ArrayDeque<T> {
 
     }
 
-    public T removeLast() {
+    @Override
+    public Item removeLast() {
         if (size == 0) {
             return null;
         }
@@ -114,14 +112,15 @@ public class ArrayDeque<T> {
         }
 
         int removedInd = minusOne(nextL);
-        T removed = items[removedInd];
+        Item removed = items[removedInd];
         size--;
         items[removedInd] = null;
         nextL = removedInd;
         return removed;
     }
 
-    public T get(int index) {
+    @Override
+    public Item get(int index) {
         if (index >= size) {
             return null;
         }
