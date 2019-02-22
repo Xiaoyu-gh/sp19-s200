@@ -10,6 +10,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 
+import java.util.Random;
+
 /**
  * An implementation of a motile pacifist photosynthesizer.
  *
@@ -57,7 +59,7 @@ public class Plip extends Creature {
      * that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        g = (int) (96 * this.energy + 63);
         return color(r, g, b);
     }
 
@@ -75,6 +77,10 @@ public class Plip extends Creature {
      */
     public void move() {
         // TODO
+        this.energy -= 0.15;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }
     }
 
 
@@ -83,6 +89,10 @@ public class Plip extends Creature {
      */
     public void stay() {
         // TODO
+        this.energy += 0.2;
+        if (this.energy > 2) {
+            this.energy = 2;
+        }
     }
 
     /**
@@ -91,7 +101,13 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        return this;
+
+        Plip offSpring = new Plip(this.energy/2);
+        this.energy = offSpring.energy;
+        offSpring.r = this.r;
+        offSpring.g = this.g;
+        offSpring.b = this.b;
+        return offSpring;
     }
 
     /**
@@ -113,16 +129,50 @@ public class Plip extends Creature {
         boolean anyClorus = false;
         // TODO
         // (Google: Enhanced for-loop over keys of NEIGHBORS?)
-        // for () {...}
+         for (Map.Entry<Direction, Occupant> entry : neighbors.entrySet()) {
+             Direction key = entry.getKey();
+             Occupant value = entry.getValue();
+             if (value.name() == "empty") {
+                 emptyNeighbors.add(key);
+             } else if (value.name() == "clorus") {
+                 anyClorus = true;
+             }
 
-        if (false) { // FIXME
+         }
+
+        if (emptyNeighbors.size() == 0) {
+            // FIXME
             // TODO
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
+        if (this.energy > 1) {
+            Random ind = new Random();
+            int randInd = ind.nextInt(emptyNeighbors.size());
+            Direction[] emptyNeighborsArray = emptyNeighbors.toArray(new Direction[emptyNeighbors.size()]);
+            Direction dir = emptyNeighborsArray[randInd];
+            /* where to replicate???
+             */
+            return new Action(Action.ActionType.REPLICATE, dir);
+        }
 
         // Rule 3
+        if (anyClorus) {
+            Random ind = new Random();
+            int randInd = ind.nextInt(emptyNeighbors.size());
+            Direction[] emptyNeighborsArray = emptyNeighbors.toArray(new Direction[emptyNeighbors.size()]);
+            Direction dir = emptyNeighborsArray[randInd];
+
+            Random chance = new Random();
+            int randChance = chance.nextInt(1);
+            if (randChance == 1) {
+                return new Action(Action.ActionType.MOVE, dir);
+            }
+            return new Action(Action.ActionType.STAY);
+
+        }
 
         // Rule 4
         return new Action(Action.ActionType.STAY);

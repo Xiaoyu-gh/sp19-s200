@@ -185,7 +185,7 @@ public class Grid {
 
 
     /**
-     * Returns the TOP, BOTTOM, LEFT, and RGIHT neighbors
+     * Returns the TOP, BOTTOM, LEFT, and RIGIHT neighbors
      * of position X and Y
      */
 
