@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class UnionFind {
 
     private int[] parent;
@@ -62,9 +64,18 @@ public class UnionFind {
         validate(vertex);
         if (parent[vertex] < 0) {
             return vertex;
+        } else {
+            ArrayList<Integer> toCompress = new ArrayList<Integer>();
+            int root = vertex;
+            while (parent[root]>=0) {
+            toCompress.add(root);
+            root = parent[root];
         }
-        parent[vertex] = find(parent[vertex]);
-        return parent[vertex];
+            for (int index : toCompress) {
+                parent[index] = root;
+            }
+            return root;
+        }
     }
 
 
