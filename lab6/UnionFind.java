@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UnionFind {
 
@@ -8,9 +9,8 @@ public class UnionFind {
        vertices are in disjoint sets. */
     public UnionFind(int n) {
         parent = new int[n];
-        for (int value:parent){
-            value = -1;
-        }
+        Arrays.fill(parent,-1);
+
     }
 
 
@@ -45,16 +45,19 @@ public class UnionFind {
        vertex with itself or vertices that are already connected should not 
        change the sets but may alter the internal structure of the data. */
     public void union(int v1, int v2) {
-        int rootV1 = find(v1);
-        int rootV2 = find(v2);
-        if(rootV1 != rootV2) {
-            if (parent[rootV1] < parent[rootV2]) {
-                parent[rootV1] += parent[rootV2];
-                parent[rootV2] = rootV1;
+        int size1 = sizeOf(v1);
+        int size2 = sizeOf(v2);
+        int root1 = find(v1);
+        int root2 = find(v2);
+        if (root1 != root2) {
+            if (size1 > size2) {
+                parent[root1] += parent[root2];
+                parent[root2] = root1;
             } else {
-                parent[rootV2] += parent[rootV1];
-                parent[rootV1] = rootV2;
+                parent[root2] += parent[root1];
+                parent[root1] = root2;
             }
+
         }
     }
 
@@ -65,17 +68,20 @@ public class UnionFind {
         if (parent[vertex] < 0) {
             return vertex;
         } else {
-            ArrayList<Integer> toCompress = new ArrayList<Integer>();
+            ArrayList<Integer> pathComp = new ArrayList<Integer>();
             int root = vertex;
-            while (parent[root]>=0) {
-            toCompress.add(root);
-            root = parent[root];
-        }
-            for (int index : toCompress) {
+            while (parent[vertex] >= 0) {
+                pathComp.add(vertex);
+                root = parent[root];
+            }
+
+            for (int index:pathComp) {
                 parent[index] = root;
             }
+
             return root;
         }
+
     }
 
 
