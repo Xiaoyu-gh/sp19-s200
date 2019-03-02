@@ -40,6 +40,33 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T>{
         return fillCount;
     }
 
+//    /**
+//     * Take an index in the buffer array and return its corresponding actual position
+//     */
+//    private int actualIndex(int pInd) {
+//        if (last < first) {
+//            return pInd + capacity() - first;
+//        }
+//        return pInd - first;
+//    }
+//    /**
+//     * Take an actual position and return its corresponding index in the buffer array
+//     */
+//    private int bufferIndex(int aInd) {
+//        if ((aInd + first) > capacity()) {
+//            return aInd + first - capacity();
+//        }
+//        return aInd + first;
+//    }
+
+
+
+    private int plusOne(int index) {
+        if (index == capacity() - 1) {
+            return 0;
+        }
+        return index + 1;
+    }
 
     /**
      * Adds x to the end of the ring buffer. If there is no room, then
@@ -52,21 +79,28 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T>{
         if (isFull()){
             throw new RuntimeException("Ring buffer overflow!!");
         }
+        rb[last] = x;
+        fillCount += 1;
+        last = plusOne(last);
 
-        return;
     }
 
     /**
      * Dequeue oldest item in the ring buffer. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow").
      */
+    @Override
     public T dequeue() {
         // TODO: Dequeue the first item. Don't forget to decrease fillCount and
         //       update first.
         if (isEmpty()) {
             throw new RuntimeException("Ring buffer underflow!!");
         }
-        return null;
+        T dequeued = rb[first];
+        rb[first] = null;
+        first = plusOne(first);
+        fillCount -= 1;
+        return dequeued;
     }
 
     /**
@@ -76,8 +110,72 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T>{
     public T peek() {
         // TODO: Return the first item. None of your instance variables should
         //       change.
-        return null;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow!!");
+        }
+        return rb[first];
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof ArrayRingBuffer)) {
+            return false;
+        }
+        ArrayRingBuffer<T> other = (ArrayRingBuffer<T>) o;
+        if (this.fillCount != other.fillCount) {
+            return false;
+        }
+
+        if (this.capacity() != other.capacity()) {
+            return false;
+        }
+
+        Iterator<T> otherI = other.iterator();
+        Iterator<T> thisI = this.iterator();
+        boolean boo = true;
+        while (thisI.hasNext() && boo) {
+            if (thisI.next() != otherI.next()) {
+                boo = false;
+            }
+        }
+        return boo;
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayRingBufferIterator();
+    }
+
+    private class ArrayRingBufferIterator implements Iterator<T> {
+
+        private int pos;
+        private int count;
+
+        public ArrayRingBufferIterator() {
+            pos = first;
+            count = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (count < fillCount);
+        }
+
+        public T next() {
+            T returnItem = rb[pos];
+            pos = plusOne(pos);
+            count++;
+            return returnItem;
+        }
+    }
+
+
 
     // TODO: When you get to part 4, implement the needed code to support
     //       iteration and equals.

@@ -9,7 +9,7 @@ public class UnionFind {
        vertices are in disjoint sets. */
     public UnionFind(int n) {
         parent = new int[n];
-        Arrays.fill(parent,-1);
+        Arrays.fill(parent, -1);
 
     }
 
@@ -17,7 +17,7 @@ public class UnionFind {
     /* Throws an exception if v1 is not a valid index. */
     private void validate(int vertex) {
         if (vertex >= parent.length || vertex < 0) {
-            throw new IllegalArgumentException ("Not valid index!");
+            throw new IllegalArgumentException("Not valid index!");
         }
     }
 
