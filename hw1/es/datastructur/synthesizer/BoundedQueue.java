@@ -1,7 +1,6 @@
 package es.datastructur.synthesizer;
-import java.util.Iterator;
 
-public interface BoundedQueue <T> extends Iterable<T> {
+public interface BoundedQueue<T> extends Iterable<T> {
 
 
     int capacity();
