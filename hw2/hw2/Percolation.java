@@ -27,7 +27,7 @@ public class Percolation {
 
     public void open(int row, int col) {
         if (row < 0 || row >= n || col < 0 || col >= n) {
-            throw new IllegalArgumentException("Input out of range!");
+            throw new IndexOutOfBoundsException("Input out of range!");
         }
 
         int index = xyto1D(row, col);
@@ -72,7 +72,7 @@ public class Percolation {
 
     public boolean isOpen(int row, int col) {
         if (row < 0 || row > n - 1 || col < 0 || col > n - 1) {
-            throw new IllegalArgumentException("Input out of range!");
+            throw new IndexOutOfBoundsException("Input out of range!");
         }
 
         if (grid[row][col]) {
@@ -83,7 +83,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         if (row < 0 || row > n - 1 || col < 0 || col > n - 1) {
-            throw new IllegalArgumentException("Input out of range!");
+            throw new IndexOutOfBoundsException("Input out of range!");
         }
 
         int index = xyto1D(row, col);
