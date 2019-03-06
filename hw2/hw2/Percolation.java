@@ -8,8 +8,8 @@ public class Percolation {
     private boolean[][] grid;
     private WeightedQuickUnionUF data;
     private WeightedQuickUnionUF skyOnly;
-    private static int topSite;
-    private static int bottomSite;
+    private int topSite;
+    private int bottomSite;
     private int openSite;
 
     public Percolation(int N) {
@@ -47,7 +47,8 @@ public class Percolation {
             if (row == 0) {
                 data.union(index, topSite);
                 skyOnly.union(index, topSite);
-            } else if (row == n - 1) {
+            }
+            if (row == n - 1) {
                 data.union(index, bottomSite);
             }
             if (leftExist && grid[row][col - 1]) {
