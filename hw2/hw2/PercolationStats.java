@@ -22,13 +22,13 @@ public class PercolationStats {
     }
 
     private double percSingleSimulator(Percolation perc) {
-            while (!perc.percolates()) {
-                int x = StdRandom.uniform(n);
-                int y = StdRandom.uniform(n);
-                perc.open(x, y);
-            }
-            double percNum = Double.valueOf(perc.numberOfOpenSites());
-            return percNum / Double.valueOf(n * n);
+        while (!perc.percolates()) {
+            int x = StdRandom.uniform(n);
+            int y = StdRandom.uniform(n);
+            perc.open(x, y);
+        }
+        double percNum = Double.valueOf(perc.numberOfOpenSites());
+        return percNum / Double.valueOf(n * n);
     }
 
     private double[] percSimulator() {

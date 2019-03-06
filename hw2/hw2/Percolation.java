@@ -74,7 +74,7 @@ public class Percolation {
             throw new IllegalArgumentException("Input out of range!");
         }
 
-        if (grid[row][col] && !isFull(row, col)) {
+        if (grid[row][col]) {
             return true;
         }
         return false;
