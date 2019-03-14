@@ -31,7 +31,7 @@ public class TestComplexOomage {
 
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(oomages, 10));
     }
-    
+
 
     @Test
     public void testWithDeadlyParams() {
