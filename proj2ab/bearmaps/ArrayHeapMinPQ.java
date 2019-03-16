@@ -77,14 +77,10 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
      */
     @Override
     public T removeSmallest() {
-        if (this.size() == 1) {
-            priorityMap.remove(getSmallest());
-            entries.remove(1);
-            indexMap.remove(getSmallest());
-        }
-
         T min = getSmallest();
-        swap(1, this.size());
+        if (this.size() > 1) {
+            swap(1, this.size());
+        }
         entries.remove(this.size());
         priorityMap.remove(min);
         indexMap.remove(min);
@@ -167,4 +163,5 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
 
 }
+
 
