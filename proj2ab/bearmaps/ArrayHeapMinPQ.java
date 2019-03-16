@@ -41,7 +41,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
         entries.add(item);
         priorityMap.put(item, priority);
-        pushUp(this.entries.size() - 1);
+        pushUp(this.size());
     }
 
 
@@ -79,11 +79,14 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         if (this.size() == 1) {
             priorityMap.remove(getSmallest());
             entries.remove(1);
+            indexMap.remove(getSmallest());
         }
 
         T min = getSmallest();
         swap(1, this.size());
         entries.remove(this.size());
+        priorityMap.remove(getSmallest());
+        indexMap.remove(getSmallest());
         pushDown(1);
         return min;
     }
