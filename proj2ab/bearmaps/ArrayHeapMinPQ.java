@@ -41,6 +41,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
         entries.add(item);
         priorityMap.put(item, priority);
+        indexMap.put(item, this.size());
         pushUp(this.size());
     }
 
@@ -85,8 +86,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         T min = getSmallest();
         swap(1, this.size());
         entries.remove(this.size());
-        priorityMap.remove(getSmallest());
-        indexMap.remove(getSmallest());
+        priorityMap.remove(min);
+        indexMap.remove(min);
         pushDown(1);
         return min;
     }
@@ -112,8 +113,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         T item1 = entries.get(index1);
         T item2 = entries.get(index2);
 
-        this.entries.set(index1, item1);
-        this.entries.set(index2, item2);
+        this.entries.set(index2, item1);
+        this.entries.set(index1, item2);
 
         indexMap.replace(item1, index2);
         indexMap.replace(item2, index1);
@@ -141,8 +142,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         //if the index has no children or has no entry, code cannot proceed
         int lcIdx = leftChildIdx(index);
         int rcIdx = rightChildIdx(index);
-        if (this.entries.get(lcIdx) != null && this.entries.get(rcIdx) != null
-                && this.entries.get(index) != null) {
+        if ((lcIdx <= size() || rcIdx <= size()) && this.entries.get(index) != null) {
             int smaller = smaller(lcIdx, rcIdx);
 
             if (priorityMap.get(entries.get(index)) > priorityMap.get(entries.get(smaller))) {
