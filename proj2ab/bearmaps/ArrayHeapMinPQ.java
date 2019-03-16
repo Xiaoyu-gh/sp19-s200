@@ -56,8 +56,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         if (entries.size() == 1) {
             return false;
         }
-        for (Entry entry: this.entries) {
-            if (entry.item.equals(item)) {
+        for (int i = 1; i < entries.size(); i++) {
+            if (entries.get(i).item.equals(item)) {
                 return true;
             }
         }
