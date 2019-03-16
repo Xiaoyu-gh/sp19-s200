@@ -7,6 +7,6 @@ public class KDTreeTest {
     @Test
 
     public void basicTest() {
-        assertEquals(1,1);
+        assertEquals(1, 1);
     }
 }

@@ -6,8 +6,8 @@ import java.util.NoSuchElementException;
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     private ArrayList<T> entries;
-    private HashMap<T,Double> priorityMap;
-    private HashMap<T,Integer> indexMap;
+    private HashMap<T, Double> priorityMap;
+    private HashMap<T, Integer> indexMap;
 
 
     public ArrayHeapMinPQ() {
@@ -42,7 +42,6 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         entries.add(item);
         priorityMap.put(item, priority);
         pushUp(this.entries.size() - 1);
-        //TODO: IndexMAP
     }
 
 
@@ -108,7 +107,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /* Swap the two entries given their index. */
     private void swap(int index1, int index2) {
         T item1 = entries.get(index1);
-        T item2= entries.get(index2);
+        T item2 = entries.get(index2);
 
         this.entries.set(index1, item1);
         this.entries.set(index2, item2);
