@@ -16,7 +16,7 @@ public class ArrayHeapMinPQTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testNoSuchElementException(){
+    public void testNoSuchElementException() {
         ArrayHeapMinPQ<Integer> a = new ArrayHeapMinPQ<>();
         a.getSmallest();
         a.changePriority(1, 0.7);

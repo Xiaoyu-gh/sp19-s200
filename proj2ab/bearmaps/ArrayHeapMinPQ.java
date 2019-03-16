@@ -1,25 +1,20 @@
 package bearmaps;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
-    private ArrayList<Entry> entries;
+    private ArrayList<T> entries;
+    private HashMap<T,Double> priorityMap;
+    private HashMap<T,Integer> indexMap;
 
-    private class Entry {
-        private T item;
-        private double priority;
-
-        private Entry(T i, double p) {
-            this.item = i;
-            this.priority = p;
-        }
-    }
 
     public ArrayHeapMinPQ() {
         entries = new ArrayList<>();
-        entries.add(new Entry(null, Double.MIN_VALUE));
-
+        entries.add(null);
+        priorityMap = new HashMap<>();
+        indexMap = new HashMap<>();
     }
 
     /* Return the left child index of the given parent index. */
@@ -44,8 +39,10 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new IllegalArgumentException("Item already exists, try changePriority function");
         }
 
-        this.entries.add(new Entry(item, priority));
+        entries.add(item);
+        priorityMap.put(item, priority);
         pushUp(this.entries.size() - 1);
+        //TODO: IndexMAP
     }
 
 
@@ -53,15 +50,11 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
        else, return false. */
     @Override
     public boolean contains(T item) {
-        if (entries.size() == 1) {
+        if (this.size() == 0) {
             return false;
         }
-        for (int i = 1; i < entries.size(); i++) {
-            if (entries.get(i).item.equals(item)) {
-                return true;
-            }
-        }
-        return false;
+
+        return priorityMap.containsKey(item);
     }
 
     /* Return the item with smallest priority in ArrayHeap. */
@@ -70,7 +63,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         if (this.size() == 0) {
             throw new NoSuchElementException("No item exists");
         }
-        return this.entries.get(1).item;
+        return entries.get(1);
     }
 
     /* Return the size of the ArrayHeap. */
@@ -84,10 +77,14 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
      */
     @Override
     public T removeSmallest() {
+        if (this.size() == 1) {
+            priorityMap.remove(getSmallest());
+            entries.remove(1);
+        }
+
         T min = getSmallest();
-        Entry newFirst = this.entries.get(this.entries.size() - 1);
-        swap(1, this.entries.size() - 1);
-        this.entries.remove(this.entries.size() - 1);
+        swap(1, this.size());
+        entries.remove(this.size());
         pushDown(1);
         return min;
     }
@@ -101,25 +98,23 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new NoSuchElementException("No such item exists");
         }
 
-        for (int i = 1; i < entries.size(); i++) {
-            if (entries.get(i).item.equals(item)) {
-                Entry entry = entries.get(i);
-                double oldPriority = entry.priority;
-                entry.priority = priority;
-                pushDown(i);
-                pushUp(i);
-            }
-        }
+        priorityMap.replace(item, priority);
+        int idx = indexMap.get(item);
+        pushUp(idx);
+        pushDown(idx);
 
     }
 
     /* Swap the two entries given their index. */
     private void swap(int index1, int index2) {
-        Entry entry1 = entries.get(index1);
-        Entry entry2 = entries.get(index2);
+        T item1 = entries.get(index1);
+        T item2= entries.get(index2);
 
-        this.entries.set(index1, entry2);
-        this.entries.set(index2, entry1);
+        this.entries.set(index1, item1);
+        this.entries.set(index2, item2);
+
+        indexMap.replace(item1, index2);
+        indexMap.replace(item2, index1);
     }
 
     /* Move the entry up one level (swap the entry with its parent) */
@@ -129,7 +124,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         if (index > 1 && this.entries.get(index) != null) {
             int pIdx = parentIdx(index);
 
-            if (this.entries.get(index).priority < this.entries.get(pIdx).priority) {
+            if (priorityMap.get(entries.get(index)) < priorityMap.get(entries.get(pIdx))) {
                 swap(index, pIdx);
                 //built in recursive again
                 pushUp(pIdx);
@@ -148,7 +143,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
                 && this.entries.get(index) != null) {
             int smaller = smaller(lcIdx, rcIdx);
 
-            if (this.entries.get(index).priority > this.entries.get(smaller).priority) {
+            if (priorityMap.get(entries.get(index)) > priorityMap.get(entries.get(smaller))) {
                 swap(index, smaller);
                 pushDown(smaller);
             }
@@ -157,16 +152,17 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     /* Return the index of the entry with a smaller priority. */
     private int smaller(int index1, int index2) {
-        if (this.entries.get(index1) == null) {
+        if (index1 > this.size()) {
             return index2;
-        } else if (this.entries.get(index2) == null) {
+        } else if (index2 > this.size()) {
             return index1;
-        } else if (this.entries.get(index1).priority < this.entries.get(index2).priority) {
+        } else if (priorityMap.get(entries.get(index1)) < priorityMap.get(entries.get(index2))) {
             return index1;
         } else {
             return index2;
         }
     }
+
 
 }
 
