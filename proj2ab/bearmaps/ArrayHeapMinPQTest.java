@@ -62,5 +62,18 @@ public class ArrayHeapMinPQTest {
         assertEquals("hi2", a.getSmallest());
     }
 
+    @Test
+    public void changePriorityTest() {
+        ArrayHeapMinPQ<String> a = new ArrayHeapMinPQ<String>();
+        for (int i = 1; i < 257; i++) {
+            a.add("hi" + i, (double)i);
+        }
+        a.changePriority("hi256", 1);
+        assertEquals("hi1", a.getSmallest());
+        a.removeSmallest();
+        assertEquals("hi256", a.getSmallest());
+
+    }
+
 
 }
