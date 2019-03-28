@@ -106,6 +106,22 @@ public class MyTrieSet implements TrieSet61B {
 
     @Override
     public String longestPrefixOf(String key) {
-        throw new UnsupportedOperationException("Do not support!");
+        String result = "";
+        if(key == null || key.length() == 0) {
+            return result;
+        }
+
+        Node currNode = root;
+        for(int i = 0; i < key.length(); i++) {
+            char curr = key.charAt(i);
+            // if the current node has this letter, then go to that node and
+            // don't create new node
+            if(!currNode.kids.containsKey(curr)) {
+                return result;
+            }
+            result = result + Character.toString(curr);
+            currNode = currNode.kids.get(curr);
+        }
+        return result;
     }
 }
