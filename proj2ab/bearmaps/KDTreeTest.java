@@ -1,5 +1,6 @@
 package bearmaps;
 
+import edu.princeton.cs.algs4.Stopwatch;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -117,5 +118,47 @@ public class KDTreeTest {
         int ptsNum = 100000;
         int queriesNum = 20000;
         randomXPtsQueriesTest(ptsNum, queriesNum);
+    }
+
+
+    private void timekdXPtsYQuries(int X, int Y) {
+        List<Point> pts = xPointsListConstructor(X);
+        KDTree kd = new KDTree(pts);
+
+        Stopwatch w = new Stopwatch();
+        List<Point> queries = xPointsListConstructor(Y);
+        for (Point p : queries) {
+            Point act = kd.nearest(p.getX(), p.getY());
+        }
+        System.out.println("Time elapsed for " + Y + " queries on "
+                            + X + " points: " + w.elapsedTime());
+    }
+
+    @Test
+    public void timewith1000Ptsand200queries() {
+        timekdXPtsYQuries(100000, 20000);
+    }
+
+    @Test
+    public void timekdvsnps() {
+        List<Point> pts = xPointsListConstructor(100000);
+        KDTree kd = new KDTree(pts);
+        NaivePointSet nps = new NaivePointSet(pts);
+        List<Point> queries = xPointsListConstructor(10000);
+
+        Stopwatch npsw = new Stopwatch();
+        for (Point p: queries) {
+            nps.nearest(p.getX(), p.getY());
+        }
+        double npstime = npsw.elapsedTime();
+        System.out.println("NaivePointSet on nearest: " + npstime);
+
+        Stopwatch kdw = new Stopwatch();
+        for (Point p: queries) {
+            kd.nearest(p.getX(), p.getY());
+        }
+        double kdtime = kdw.elapsedTime();
+        System.out.println("KDTree on nearest: " + kdtime);
+
     }
 }
