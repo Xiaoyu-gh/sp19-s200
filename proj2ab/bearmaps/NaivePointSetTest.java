@@ -40,7 +40,7 @@ public class NaivePointSetTest {
         Random r = new Random();
         List<Point> a = new ArrayList<>();
         for (int i = 0; i < 200; i++) {
-            a.add( new Point(r.nextDouble(), r.nextDouble()));
+            a.add(new Point(r.nextDouble(), r.nextDouble()));
         }
         NaivePointSet aa = new NaivePointSet(a);
         for (int i = 0; i < 200; i++) {
