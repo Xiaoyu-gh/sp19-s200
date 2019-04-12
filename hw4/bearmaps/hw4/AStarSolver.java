@@ -42,7 +42,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         fringe.add(start, heuristics.get(start));
 
         while (fringe.size() != 0 && (fringe.getSmallest() != end)) {
-            Vertex currV= fringe.removeSmallest();
+            Vertex currV = fringe.removeSmallest();
             numDequeue += 1;
             neighbor = input.neighbors(currV);
             relax(currV, neighbor, input);

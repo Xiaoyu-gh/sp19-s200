@@ -29,7 +29,9 @@ public class StreetMapGraph implements AStarGraph<Long> {
      * instantiated by clients using static creation methods
      * readFromXML and readFromSimpleFormat.
      */
-    private StreetMapGraph() {}
+    private StreetMapGraph() {
+
+    }
 
     /**
      * Returns a list of outgoing edges for V. Assumes V exists in this
