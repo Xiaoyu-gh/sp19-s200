@@ -1,6 +1,6 @@
 package bearmaps.hw4;
 
-import bearmaps.proj2ab.ArrayHeapMinPQ;
+import bearmaps.proj2ab.DoubleMapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     private HashMap<Vertex, Double> distTo;
     private HashMap<Vertex, Vertex> edgeTo;
     private HashMap<Vertex, Double> heuristics;
-    private ArrayHeapMinPQ<Vertex> fringe;
+    private DoubleMapPQ<Vertex> fringe;
 
     private List<WeightedEdge<Vertex>> neighbor;
 
@@ -38,7 +38,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
 
         //create and initialize a PQ object for fringe
-        fringe = new ArrayHeapMinPQ<>();
+        fringe = new DoubleMapPQ<>();
         fringe.add(start, heuristics.get(start));
 
         while (fringe.size() != 0 && (fringe.getSmallest() != end)) {
@@ -46,10 +46,10 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             numDequeue += 1;
             neighbor = input.neighbors(currV);
             relax(currV, neighbor, input);
-            expTime = exp.elapsedTime();
-            if (expTime > timeout) {
-                break;
-            }
+//            expTime = exp.elapsedTime();
+//            if (expTime > timeout) {
+//                break;
+//            }
         }
 
         expTime = exp.elapsedTime();
