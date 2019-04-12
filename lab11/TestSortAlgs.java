@@ -10,7 +10,7 @@ public class TestSortAlgs {
 
     @Test
     public void testQuickSort() {
-        Queue<String> tas = new Queue<String>();
+        Queue<String> tas = new Queue<>();
         tas.enqueue("Joe");
         tas.enqueue("Omar");
         tas.enqueue("Itai");
@@ -21,8 +21,21 @@ public class TestSortAlgs {
     }
 
     @Test
+    public void testAllSameQS() {
+        Queue<Integer> q1 = new Queue<>();
+        for (int i = 0; i < 10; i++) {
+            q1.enqueue(1);
+        }
+        Queue<Integer> qs = QuickSort.quickSort(q1);
+
+        assertTrue(isSorted(qs));
+        assertTrue(!q1.isEmpty());
+
+    }
+
+    @Test
     public void testMergeSort() {
-        Queue<String> tas = new Queue<String>();
+        Queue<String> tas = new Queue<>();
         tas.enqueue("Joe");
         tas.enqueue("Omar");
         tas.enqueue("Itai");
