@@ -41,8 +41,12 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         fringe = new DoubleMapPQ<>();
         fringe.add(start, heuristics.get(start));
 
-        while (fringe.size() != 0 && (!fringe.getSmallest().equals(end))) {
-            Vertex currV = fringe.removeSmallest();
+        while (fringe.size() != 0) {
+            Vertex currV = fringe.getSmallest();
+            if (currV.equals(end)) {
+                break;
+            }
+            fringe.removeSmallest();
             numDequeue += 1;
             neighbor = input.neighbors(currV);
             relax(currV, end, neighbor, input);
