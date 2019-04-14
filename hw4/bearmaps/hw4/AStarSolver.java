@@ -34,7 +34,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
         distTo.put(start, 0.0);
         neighbor = input.neighbors(start);
-        heuristics.put(start, heuHelper(neighbor));
+        heuristics.put(start, heuHelper(input, start, end));
 
 
         //create and initialize a PQ object for fringe
@@ -45,7 +45,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             Vertex currV = fringe.removeSmallest();
             numDequeue += 1;
             neighbor = input.neighbors(currV);
-            relax(currV, neighbor, input);
+            relax(currV, end, neighbor, input);
 //            expTime = exp.elapsedTime();
 //            if (expTime > timeout) {
 //                break;
@@ -79,17 +79,11 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         return solution;
     }
 
-    private double heuHelper(List<WeightedEdge<Vertex>> l) {
-        double heu = Double.MAX_VALUE;
-        for (WeightedEdge<Vertex> we : l) {
-            if (we.weight() < heu) {
-                heu = we.weight();
-            }
-        }
-        return heu;
+    private double heuHelper(AStarGraph<Vertex> g, Vertex start, Vertex end) {
+        return g.estimatedDistanceToGoal(start, end);
     }
 
-    private void relax(Vertex v, List<WeightedEdge<Vertex>> l, AStarGraph<Vertex> input) {
+    private void relax(Vertex v, Vertex end, List<WeightedEdge<Vertex>> l, AStarGraph<Vertex> input) {
 
         //for each neighbor of vertex v
         // update distTo, edgeTo, heuristics, and fringe
@@ -98,7 +92,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             Double newDist = e.weight() + distTo.get(v);
             if (!distTo.containsKey(curr)) {
                 edgeTo.put(curr, v);
-                Double heu = heuHelper(input.neighbors(curr));
+                Double heu = heuHelper(input, curr, end);
                 heuristics.put(curr, heu);
                 distTo.put(curr, newDist);
                 fringe.add(curr, heu + newDist);
