@@ -22,7 +22,7 @@ public class DemoRunSeveralPuzzles {
 
     public static void main(String[] args) {
 
-        String[] puzzleFiles = hardPuzzles;
+        String[] puzzleFiles = elitePuzzles;
 
         System.out.println(puzzleFiles.length + " puzzle files being run.");
         for (int i = 0; i < puzzleFiles.length; i += 1) {
@@ -32,7 +32,7 @@ public class DemoRunSeveralPuzzles {
 
             BoardGraph spg = new BoardGraph();
             System.out.println(puzzleFiles[i] + ":");
-            ShortestPathsSolver<Board> solver = new AStarSolver<>(spg, start, goal, 30);
+            ShortestPathsSolver<Board> solver = new AStarSolver<>(spg, start, goal, 50);
             SolutionPrinter.summarizeOutcome(solver);
         }
 

@@ -76,7 +76,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         Vertex curr = end;
         solution = new ArrayList<>();
         solution.add(end);
-        while (curr != start) {
+        while (!curr.equals(start)) {
             curr = edgeTo.get(curr);
             solution.add(0, curr);
         }
