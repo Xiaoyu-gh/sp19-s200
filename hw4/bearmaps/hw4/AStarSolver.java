@@ -46,10 +46,10 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             numDequeue += 1;
             neighbor = input.neighbors(currV);
             relax(currV, end, neighbor, input);
-//            expTime = exp.elapsedTime();
-//            if (expTime > timeout) {
-//                break;
-//            }
+            expTime = exp.elapsedTime();
+            if (expTime > timeout) {
+                break;
+            }
         }
 
         expTime = exp.elapsedTime();
