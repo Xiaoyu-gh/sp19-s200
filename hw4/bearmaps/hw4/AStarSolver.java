@@ -41,7 +41,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         fringe = new DoubleMapPQ<>();
         fringe.add(start, heuristics.get(start));
 
-        while (fringe.size() != 0 && (fringe.getSmallest() != end)) {
+        while (fringe.size() != 0 && (!fringe.getSmallest().equals(end))) {
             Vertex currV = fringe.removeSmallest();
             numDequeue += 1;
             neighbor = input.neighbors(currV);
@@ -83,7 +83,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         return g.estimatedDistanceToGoal(start, end);
     }
 
-    private void relax(Vertex v, Vertex end, List<WeightedEdge<Vertex>> l, AStarGraph<Vertex> input) {
+    private void relax(Vertex v, Vertex end, List<WeightedEdge<Vertex>> l,
+                       AStarGraph<Vertex> input) {
 
         //for each neighbor of vertex v
         // update distTo, edgeTo, heuristics, and fringe
