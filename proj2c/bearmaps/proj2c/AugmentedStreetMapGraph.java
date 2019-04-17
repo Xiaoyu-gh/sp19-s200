@@ -9,6 +9,7 @@ import bearmaps.proj2ab.WeirdPointSet;
 import org.apache.commons.math3.linear.ArrayRealVector;
 
 import java.lang.reflect.Array;
+import edu.princeton.cs.algs4.TrieSET;
 import java.util.*;
 
 /**
@@ -23,8 +24,10 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Point> coordinates;
     private WeirdPointSet tree;
     private HashMap<Point, Node> map;
-    private MyTrieSet placeNames;
-    private HashMap<String, List<Node>> placeInfo;
+
+    private TrieSET placeNames;
+    private HashMap<String, ArrayList<Node>> placeInfo;
+    private HashMap<String, String> nameConvert;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -32,8 +35,11 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List<Node> nodes = this.getNodes();
         coordinates = new ArrayList<>();
         map = new HashMap<>();
-        placeNames = new MyTrieSet();
+
+        placeNames = new TrieSET();
         placeInfo = new HashMap<>();
+        nameConvert = new HashMap<>();
+
 
         for (int i = 0; i < nodes.size(); i++) {
             Node currNode = nodes.get(i);
@@ -43,20 +49,29 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 map.put(currPoint, currNode);
             }
 
+
             if (currNode.name() != null) {
                 String currName = currNode.name();
-                if (placeNames.contains(currName)) {
-                    placeNames.add(currName);
-                    List<Node> info = new ArrayList<>();
-                    placeInfo.put(currName, info);
+                String currNameLC = cleanString(currName);
+                nameConvert.put(currNameLC, currName);
+                if (!placeNames.contains(currNameLC)) {
+                    placeNames.add(currNameLC);
+                    ArrayList<Node> info = new ArrayList<>();
+                    info.add(currNode);
+                    placeInfo.put(currNameLC, info);
+                } else {
+                    ArrayList<Node> oldInfo = placeInfo.get(currNameLC);
+                    ArrayList<Node> newInfo = new ArrayList<>();
+                    newInfo.addAll(oldInfo);
+//                    for (Node info : oldInfo) {
+//                        newInfo.add(info);
+//                    }
+                    newInfo.add(currNode);
+                    placeInfo.put(currName, newInfo);
                 }
-                List<Node> info = placeInfo.get(currName);
-                info.add(currNode);
-                placeInfo.put(currName, info);
             }
+
         }
-
-
 
          tree = new WeirdPointSet(coordinates);
     }
@@ -87,7 +102,11 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<String> getLocationsByPrefix(String prefix) {
         String pre = cleanString(prefix);
-        return placeNames.keysWithPrefix(pre);
+        List<String> result = new ArrayList<>();
+        for (String name: placeNames.keysWithPrefix(pre)) {
+            result.add(nameConvert.get(name));
+        }
+        return result;
     }
 
     /**
@@ -110,8 +129,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         for (Node n : nodes) {
             locs.add(infoHelper(n));
         }
-
-        return new LinkedList<>();
+        return locs;
+//        return new LinkedList<>();
     }
 
     private Map<String, Object> infoHelper(Node n) {
@@ -133,125 +152,5 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private static String cleanString(String s) {
         return s.replaceAll("[^a-zA-Z ]", "").toLowerCase();
     }
-
-
-    private class MyTrieSet {
-
-        private Node root;
-
-        private class Node {
-            char value;
-            boolean atEnd;
-            HashMap<Character, Node> kids;
-
-            Node(char c) {
-                this.value = c;
-                this.atEnd = false;
-                this.kids = new HashMap<>();
-            }
-        }
-
-        public MyTrieSet() {
-
-            this.root = new Node('\0');
-        }
-
-
-        public void clear() {
-            this.root = new Node('\0');
-
-        }
-
-        public boolean contains(String key) {
-            if (key == null || key.length() == 0) {
-                return true;
-            }
-
-            Node currNode = root;
-            for (int i = 0; i < key.length(); i++) {
-                char curr = key.charAt(i);
-                // if the current node has this letter, then go to that node and
-                // don't create new node
-                if (!currNode.kids.containsKey(curr)) {
-                    return false;
-                }
-                currNode = currNode.kids.get(curr);
-            }
-            return currNode.atEnd;
-        }
-
-        public void add(String key) {
-            if (key == null || key.length() == 0) {
-                return;
-            }
-            Node currNode = root;
-            for (int i = 0; i < key.length(); i++) {
-                char curr = key.charAt(i);
-                // if the current node has this letter, then go to that node and
-                // don't create new node
-                if (!currNode.kids.containsKey(curr)) {
-                    Node newNode = new Node(curr);
-                    currNode.kids.put(curr, newNode);
-                }
-                currNode = currNode.kids.get(curr);
-            }
-            currNode.atEnd = true;
-        }
-
-        public List<String> keysWithPrefix(String prefix) {
-            LinkedList<String> results = new LinkedList<>();
-            //traverse the trie until reaching the end;
-            if (prefix == null || prefix.length() == 0) {
-                return results;
-            }
-
-            Node currNode = root;
-            for (int i = 0; i < prefix.length(); i++) {
-                char curr = prefix.charAt(i);
-                // if the current node has this letter, then go to that node and
-                // don't create new node
-                if (!currNode.kids.containsKey(curr)) {
-                    return results;
-                }
-                currNode = currNode.kids.get(curr);
-            }
-
-            prefixHelper(currNode, prefix, results);
-            return results;
-        }
-
-        private void prefixHelper(Node curr, String prefix, LinkedList<String> results) {
-            if (curr.atEnd) {
-                results.add(prefix);
-            }
-            for (Character c : curr.kids.keySet()) {
-                Node kid = curr.kids.get(c);
-                prefixHelper(kid, prefix + c, results);
-            }
-        }
-
-        public String longestPrefixOf(String key) {
-            String result = "";
-            if (key == null || key.length() == 0) {
-                return result;
-            }
-
-            Node currNode = root;
-            for (int i = 0; i < key.length(); i++) {
-                char curr = key.charAt(i);
-                // if the current node has this letter, then go to that node and
-                // don't create new node
-                if (!currNode.kids.containsKey(curr)) {
-                    return result;
-                }
-                result = result + Character.toString(curr);
-                currNode = currNode.kids.get(curr);
-            }
-            return result;
-        }
-    }
-
-
-
 
 }
