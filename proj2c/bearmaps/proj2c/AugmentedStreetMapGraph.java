@@ -1,5 +1,6 @@
 package bearmaps.proj2c;
 
+import bearmaps.hw4.WeightedEdge;
 import bearmaps.hw4.streetmap.Node;
 import bearmaps.hw4.streetmap.StreetMapGraph;
 import bearmaps.proj2ab.Point;
@@ -22,7 +23,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private HashMap<Point, Node> map;
 
     public AugmentedStreetMapGraph(String dbPath) {
-        super(dbPath);
+         super(dbPath);
 //         You might find it helpful to uncomment the line below:
          List<Node> nodes = this.getNodes();
          coordinates = new ArrayList<>();
@@ -30,9 +31,20 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
          for (int i = 0; i < nodes.size(); i++) {
              Node currNode = nodes.get(i);
              Point currPoint = new Point(currNode.lon(), currNode.lat());
-             coordinates.add(currPoint);
-             map.put(currPoint, currNode);
+             if (this.neighbors(currNode.id()).size() != 0) {
+                 coordinates.add(currPoint);
+                 map.put(currPoint, currNode);
+             }
          }
+
+//         for (int i = 0; i < nodes.size(); i++) {
+//             Node currNode = nodes.get(i);
+//             Point currPoint = new Point(currNode.lon(), currNode.lat());
+//             if (this.neighbors(currNode.id()).size() == 0) {
+//                 coordinates.remove(currPoint);
+//                 map.remove(currPoint);
+//             }
+//         }
          tree = new WeirdPointSet(coordinates);
     }
 
@@ -45,7 +57,24 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        return 0;
+//        Point currPoint = new Point(lon, lat);
+//        Node currNode = map.get(currPoint);
+//        long currLong = currNode.id();
+//        List<WeightedEdge<Long>> neighbors = this.neighbors(currLong);
+//
+//        List<Point> neighborPoints = new ArrayList<>();
+//        neighborPoints.add(currPoint);
+//        for (WeightedEdge<Long> e : neighbors) {
+//            Long l = e.to();
+//            neighborPoints.add(new Point(this.lon(l), this.lat(l)));
+//        }
+//
+//        WeirdPointSet neighborTree = new WeirdPointSet(neighborPoints);
+//
+//        Point closestPoint = neighborTree.nearest(lon, lat);
+
+        Point closestPoint = tree.nearest(lon, lat);
+        return map.get(closestPoint).id();
     }
 
 
