@@ -2,6 +2,7 @@ package bearmaps.proj2c.server.handler.impl;
 
 import bearmaps.proj2c.AugmentedStreetMapGraph;
 import bearmaps.proj2c.server.handler.APIRouteHandler;
+import org.eclipse.jetty.server.handler.ContextHandler;
 import spark.Request;
 import spark.Response;
 import bearmaps.proj2c.utils.Constants;
@@ -84,12 +85,121 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
      */
     @Override
     public Map<String, Object> processRequest(Map<String, Double> requestParams, Response response) {
-        //System.out.println("yo, wanna know the parameters given by the web browser? They are:");
-        //System.out.println(requestParams);
+        System.out.println("yo, wanna know the parameters given by the web browser? They are:");
+        System.out.println(requestParams);
         Map<String, Object> results = new HashMap<>();
-        System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
-                + "your browser.");
+//        System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
+//                + "your browser.");
+
+
+        double rootXLeft = Constants.ROOT_ULLON;
+        double rootYUpper= Constants.ROOT_ULLAT;
+        double rootXRight = Constants.ROOT_LRLON;
+        double rootYLower = Constants.ROOT_LRLAT;
+
+        double xLeft = requestParams.get("ullon");
+        double yUpper = requestParams.get("ullat");
+        double xRight = requestParams.get("lrlon");
+        double yLower = requestParams.get("lrlat");
+        double width = requestParams.get("w");
+        double height = requestParams.get("h");
+
+        //corner case: no coverage - return false
+        if (xLeft > xRight || yLower > yUpper || xRight < rootXLeft || xLeft > rootXRight
+                || yLower > rootYUpper || yUpper < rootYLower) {
+            queryFail();
+        }
+
+        //corner case: partial coverage - reset boundary
+        if (xLeft < rootXLeft) {
+            xLeft = rootXLeft;
+        }
+        if (xRight > xRight) {
+            xRight = rootXRight;
+        }
+        if (yUpper > rootYUpper) {
+            yUpper = rootYUpper;
+        }
+        if (yLower < rootYLower) {
+            yLower = rootYLower;
+        }
+
+        double londpp = LonDPPHelper(xRight, xLeft, width);
+        int depth = depthHelper(londpp);
+        boolean query_success = true;
+        String[][] grid = gridHelper(xLeft, xRight, yUpper, yLower, depth);
+        double[][] coord = latlongHelper(xLeft, xRight, yUpper, yLower, depth);
+        results.put("render_grid", grid);
+        results.put("raster_ul_lon", coord[0][0]);
+        results.put("raster_ul_lat", coord[0][1]);
+        results.put("raster_lr_lon", coord[1][0]);
+        results.put("raster_lr_lat", coord[1][1]);
+        results.put("depth", depth);
+        results.put("query_success", query_success);
+
         return results;
+    }
+
+    /**
+     */
+    private double LonDPPHelper(double lrlon, double ullon, double width) {
+        return (lrlon - ullon) / width;
+    }
+
+    /**This function maps LonDPP to its best suited depth
+     */
+    private int depthHelper(double londpp) {
+        double maxlondpp = (Constants.ROOT_LRLON - Constants.ROOT_ULLON) / Constants.TILE_SIZE;
+        double depth = Math.ceil(Math.log (maxlondpp / londpp) / Math.log(2));
+        if (depth > 7) {
+            depth = 7;
+        }
+        return (int) depth;
+    }
+
+
+
+    private String[][] gridHelper(double xLeft, double xRight, double yUpper, double yLower, int depth) {
+        int n = (int) Math.pow(2, depth);
+        double tileLonSize = (Constants.ROOT_LRLON - Constants.ROOT_ULLON) / n;
+        double tileLatSize = (Constants.ROOT_ULLAT - Constants.ROOT_LRLAT) / n;
+        int tileLeftBound = (int) Math.floor((xLeft - Constants.ROOT_ULLON) / tileLonSize);
+        int tileRightBound = (int) Math.ceil((xRight - Constants.ROOT_ULLON) / tileLonSize);
+        int tileUpperBound = (int) Math.floor(-(yUpper - Constants.ROOT_ULLAT ) / tileLatSize);
+        int tileLowerBound = (int) Math.ceil(-(yLower - Constants.ROOT_ULLAT) / tileLatSize);
+
+        String[][] grid = new String[tileLowerBound - tileUpperBound][tileRightBound - tileLeftBound];
+        int x = 0;
+        int y = 0;
+
+        for (int i = tileLeftBound; i != tileRightBound; i++) {
+            for (int j = tileUpperBound; j != tileLowerBound; j++) {
+                String img = "d" + depth + "_x" + i + "_y" + j + ".png";
+                grid[x][y] = img;
+                x++;
+            }
+            x = 0;
+            y++;
+        }
+        return grid;
+    }
+
+    private double[][] latlongHelper(double xLeft, double xRight, double yUpper, double yLower, int depth) {
+        int n = (int) Math.pow(2, depth);
+        double tileLonSize = (Constants.ROOT_LRLON - Constants.ROOT_ULLON) / n;
+        double tileLatSize = (Constants.ROOT_ULLAT - Constants.ROOT_LRLAT) / n;
+        int tileLeftBound = (int) Math.floor((xLeft - Constants.ROOT_ULLON) / tileLonSize);
+        int tileRightBound = (int) Math.ceil((xRight - Constants.ROOT_ULLON) / tileLonSize);
+        int tileUpperBound = (int) Math.floor(-(yUpper - Constants.ROOT_ULLAT ) / tileLatSize);
+        int tileLowerBound = (int) Math.ceil(-(yLower - Constants.ROOT_ULLAT) / tileLatSize);
+
+        double[][] coord = new double[2][2];
+        coord[0][0] = Constants.ROOT_ULLON + tileLeftBound * tileLonSize;
+        coord[1][0] = Constants.ROOT_ULLON + tileRightBound * tileLonSize;
+        coord[0][1] = Constants.ROOT_ULLAT - tileUpperBound * tileLatSize;
+        coord[1][1] = Constants.ROOT_ULLAT - tileLowerBound * tileLatSize;
+
+        return coord;
     }
 
     @Override

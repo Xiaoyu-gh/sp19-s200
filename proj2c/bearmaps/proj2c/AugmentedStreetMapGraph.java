@@ -3,6 +3,8 @@ package bearmaps.proj2c;
 import bearmaps.hw4.streetmap.Node;
 import bearmaps.hw4.streetmap.StreetMapGraph;
 import bearmaps.proj2ab.Point;
+import bearmaps.proj2ab.PointSet;
+import bearmaps.proj2ab.WeirdPointSet;
 
 import java.util.*;
 
@@ -15,10 +17,23 @@ import java.util.*;
  */
 public class AugmentedStreetMapGraph extends StreetMapGraph {
 
+    private List<Point> coordinates;
+    private WeirdPointSet tree;
+    private HashMap<Point, Node> map;
+
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
-        // You might find it helpful to uncomment the line below:
-        // List<Node> nodes = this.getNodes();
+//         You might find it helpful to uncomment the line below:
+         List<Node> nodes = this.getNodes();
+         coordinates = new ArrayList<>();
+         map = new HashMap<>();
+         for (int i = 0; i < nodes.size(); i++) {
+             Node currNode = nodes.get(i);
+             Point currPoint = new Point(currNode.lon(), currNode.lat());
+             coordinates.add(currPoint);
+             map.put(currPoint, currNode);
+         }
+         tree = new WeirdPointSet(coordinates);
     }
 
 
