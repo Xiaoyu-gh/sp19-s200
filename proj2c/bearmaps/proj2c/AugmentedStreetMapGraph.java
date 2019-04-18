@@ -27,7 +27,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
     private TrieSET placeNames;
     private HashMap<String, ArrayList<Node>> placeInfo;
-    private HashMap<String, String> nameConvert;
+    private HashMap<String, ArrayList<String>> nameConvert;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -49,25 +49,28 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 map.put(currPoint, currNode);
             }
 
-
             if (currNode.name() != null) {
                 String currName = currNode.name();
                 String currNameLC = cleanString(currName);
-                nameConvert.put(currNameLC, currName);
                 if (!placeNames.contains(currNameLC)) {
                     placeNames.add(currNameLC);
                     ArrayList<Node> info = new ArrayList<>();
                     info.add(currNode);
                     placeInfo.put(currNameLC, info);
+                    ArrayList<String> realName = new ArrayList<>();
+                    realName.add(currName);
+                    nameConvert.put(currNameLC, realName);
                 } else {
                     ArrayList<Node> oldInfo = placeInfo.get(currNameLC);
                     ArrayList<Node> newInfo = new ArrayList<>();
                     newInfo.addAll(oldInfo);
-//                    for (Node info : oldInfo) {
-//                        newInfo.add(info);
-//                    }
                     newInfo.add(currNode);
-                    placeInfo.put(currName, newInfo);
+                    placeInfo.put(currNameLC, newInfo);
+                    ArrayList<String> oldNames = nameConvert.get(currNameLC);
+                    ArrayList<String> newNames = new ArrayList<>();
+                    newNames.addAll(oldNames);
+                    newNames.add(currName);
+                    nameConvert.put(currNameLC, newNames);
                 }
             }
 
@@ -103,8 +106,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public List<String> getLocationsByPrefix(String prefix) {
         String pre = cleanString(prefix);
         List<String> result = new ArrayList<>();
-        for (String name: placeNames.keysWithPrefix(pre)) {
-            result.add(nameConvert.get(name));
+        for (String cleanName: placeNames.keysWithPrefix(pre)) {
+            for (String realName: nameConvert.get(cleanName))
+            result.add(realName);
         }
         return result;
     }
