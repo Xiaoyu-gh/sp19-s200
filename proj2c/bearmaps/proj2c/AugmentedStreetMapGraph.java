@@ -25,7 +25,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private WeirdPointSet tree;
     private HashMap<Point, Node> map;
 
-    private TrieSET placeNames;
+    private NewTrieSET placeNames;
     private HashMap<String, List<Map<String, Object>>> placeInfo;
     private HashMap<String, List<String>> nameConvert;
 
@@ -36,7 +36,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         coordinates = new ArrayList<>();
         map = new HashMap<>();
 
-        placeNames = new TrieSET();
+        placeNames = new NewTrieSET();
         placeInfo = new HashMap<>();
         nameConvert = new HashMap<>();
 
@@ -158,5 +158,6 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private static String cleanString(String s) {
         return s.replaceAll("[^a-zA-Z ]", "").toLowerCase();
     }
+
 
 }
