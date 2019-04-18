@@ -26,8 +26,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private HashMap<Point, Node> map;
 
     private TrieSET placeNames;
-    private HashMap<String, ArrayList<Node>> placeInfo;
-    private HashMap<String, ArrayList<String>> nameConvert;
+    private HashMap<String, List<Map<String, Object>>> placeInfo;
+    private HashMap<String, List<String>> nameConvert;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -43,34 +43,42 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
         for (int i = 0; i < nodes.size(); i++) {
             Node currNode = nodes.get(i);
-            Point currPoint = new Point(currNode.lon(), currNode.lat());
-            if (this.neighbors(currNode.id()).size() != 0) {
-                coordinates.add(currPoint);
-                map.put(currPoint, currNode);
-            }
+//            Point currPoint = new Point(currNode.lon(), currNode.lat());
+//            if (this.neighbors(currNode.id()).size() != 0) {
+//                coordinates.add(currPoint);
+//                map.put(currPoint, currNode);
+//            }
 
             if (currNode.name() != null) {
                 String currName = currNode.name();
                 String currNameLC = cleanString(currName);
                 if (!placeNames.contains(currNameLC)) {
                     placeNames.add(currNameLC);
-                    ArrayList<Node> info = new ArrayList<>();
-                    info.add(currNode);
+
+                    List<Map<String, Object>> info = new ArrayList<>();
+                    info.add(infoHelper(currNode));
                     placeInfo.put(currNameLC, info);
-                    ArrayList<String> realName = new ArrayList<>();
+
+                    List<String> realName = new ArrayList<>();
                     realName.add(currName);
                     nameConvert.put(currNameLC, realName);
                 } else {
-                    ArrayList<Node> oldInfo = placeInfo.get(currNameLC);
-                    ArrayList<Node> newInfo = new ArrayList<>();
-                    newInfo.addAll(oldInfo);
-                    newInfo.add(currNode);
-                    placeInfo.put(currNameLC, newInfo);
-                    ArrayList<String> oldNames = nameConvert.get(currNameLC);
-                    ArrayList<String> newNames = new ArrayList<>();
-                    newNames.addAll(oldNames);
-                    newNames.add(currName);
-                    nameConvert.put(currNameLC, newNames);
+//                    ArrayList<Node> oldInfo = placeInfo.get(currNameLC);
+//                    ArrayList<Node> newInfo = new ArrayList<>();
+//                    newInfo.addAll(oldInfo);
+//                    newInfo.add(currNode);
+//                    placeInfo.put(currNameLC, newInfo);
+                    List<Map<String, Object>> info = placeInfo.get(currNameLC);
+                    info.add(infoHelper(currNode));
+                    placeInfo.put(currNameLC, info);
+//                    ArrayList<String> oldNames = nameConvert.get(currNameLC);
+//                    ArrayList<String> newNames = new ArrayList<>();
+//                    newNames.addAll(oldNames);
+//                    newNames.add(currName);
+//                    nameConvert.put(currNameLC, newNames);
+                    List<String> names = nameConvert.get(currNameLC);
+                    names.add(currName);
+                    nameConvert.put(currNameLC, names);
                 }
             }
 
@@ -107,8 +115,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         String pre = cleanString(prefix);
         List<String> result = new ArrayList<>();
         for (String cleanName: placeNames.keysWithPrefix(pre)) {
-            for (String realName: nameConvert.get(cleanName))
-            result.add(realName);
+            result.addAll(nameConvert.get(cleanName));
         }
         return result;
     }
@@ -128,12 +135,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      */
     public List<Map<String, Object>> getLocations(String locationName) {
         String locName = cleanString(locationName);
-        List<Map<String, Object>> locs = new ArrayList<>();
-        List<Node> nodes = placeInfo.get(locName);
-        for (Node n : nodes) {
-            locs.add(infoHelper(n));
-        }
-        return locs;
+        return placeInfo.get(locName);
 //        return new LinkedList<>();
     }
 
