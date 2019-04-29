@@ -17,11 +17,5 @@ public class Main {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
         }
-
-//        String str = "N922337203685477580S";
-//        String strNew = str.substring(1, str.length()-1);
-//        long seedLong = Long.parseLong(strNew);
-//        System.out.println(seedLong);
-
     }
 }
