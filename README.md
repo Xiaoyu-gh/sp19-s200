@@ -8,7 +8,7 @@ This repo is a clone of Shirley Zhou's assignment submission of Spring 2019 CS61
 See detailed information about assignments on: https://sp19.datastructur.es
 
 ### Homeworks 
-Hw 1: Implement a package for generating synthesized musical instruments, makes use of special queue structures, enqueue & dequeue methods 
+Hw 1: Implement a package for generating synthesized musical instruments, makes use of special queue structures, enqueue & dequeue methods <br>
 Hw 2: Implement a program that estimate the value of the percolation threshold of a given site via Monte Carlo simulation, makes use of disjoint sets
 Hw 3: Implement hashCodes with complex requirements
 Hw 4: Implement AStar algorithm and apply to solve given types of puzzles 
